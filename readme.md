@@ -1,36 +1,32 @@
-## Purpose
-This small project was developed for a technical test made by PlacetoPay with the purpose of verify the abilities to understand a problem from standard documentation.
+## Resumen
+Proyecto creado para la presentación a PlaceToPay, el proyecto base fue tomado de [Joan Quiroga](https://github.com/johanquiroga/placetopay-ws-client/), según mi analisis es el mejor repositorio frente a los requerimientos entregados, este proyecto tiene como fin realizar una aplicación que pueda consumir un servicio WEB (soap) con php, en este caso particular con laravel.
 
-The project consist of a connection with the PSE WebService offered by PlacetoPay. This connection allows a basic payment process.
+## Abordar el tema
+Al utilizar SOAP UI, me encuentro con que no puedo consumir los servicios según la especificacin entregada.
 
-Once you are registered (this is just to save all transactions per user) you can perform transactions (payments), list all previously made transactions and see the stored details of any of these transactions.
+**Login**
+Entregado por PlaceToPlay 
 
-[**Live demo**](http://placetopay-test.us-west-2.elasticbeanstalk.com/)
+**trankey**
+Llave entregada por PlaceToPlay, se genera manualmente un trankedy de la siguiente forma SHAR1(seed + trankey) 
 
-## How it works
-There is only one class responsible of connecting to the WebService, the [Consumer Class](app/Soap/Consumer.php). This class receives a client (generally this will be a SoapClient) and an optional Authentication object, in this case an [Auth object](app/Soap/Auth.php) that is responsible of creating correct authentication data for this use case.
+**seed**
+Fecha actual formateada según la ISO 8601
 
-To keep this Consumer class short, a class is created for every WebService method. So if there is a getBooks WebService mehod, there is a GetBooks class that makes the actual WebService call.
-All this classes are in `app/Soap/Methods` and this is where the Consumer will look for the class to make the WebService call.
-So, a call to `$consumer->getBooks()` would be routed to another class called `App\Soap\Methods\GetBooks`.
+**Additional** 
+Datos adicionales. 
 
-If one WebService method should be cached, the respective class only has to implement the [Cacheable Interface](app/Soap/Cacheable.php).
-
-Then this two classes (Consumer and Auth) are registered to Laravel's Container, this way they are accesible in the entire application, via a Facade for example.
-
-Now all we have to do from the SoapController is make the calls through the [PlacetoPay Facade](app/Soap/Facades/PlacetoPay.php)
-
-## Installation
-
-1. Clone this repo with `git clone https://github.com/johanquiroga/placetopay-ws-client.git`
-1. On project folder run `composer install`
-1. Create and setup the database that will be used
-1. Create `.env` file with `cp .env.example .env`
-1. Set needed environment variables on `.env`. Be careful to set the correct Database information.
-1. In `.env` you will have to setup the SOAP WebService server information, such as WSDL address, location, and others.
-1. On project folder run `php artisan migrate`
+## Metodología
+Ante mi falta de conocimiento bajo un enfoque **SOAP** busque los repositorios y la documentación que me permitiera entregar el mejor resultado, por esto revise los repositorios existentes como la [documentación oficial](http://php.net/manual/en/book.soap.php) instalando de esta forma las librerias necesarias de soap adicionales y necesarias para la puesta en marcha  de este proceso.
 
 
-## Problems
+## Flujo del proyecto
+Se conecta a la clase [Consummer Class](app/Soap/Consumer.php), la cuál recibe el cliente, siguiendo una buena practica de modularidad y clases cortas (no más de una pantalla de código) se separan las clases en una estructura Methods, donde se hace el llamado a la logica de getBankList, CreateTransaction, GetTransactionInformation etc.
 
-If you encounter any problem while installing or running this project feel free to open a thoroughly detailed issue on this repo or contact me via e-mail at johan.c.quiroga@gmail.com
+## Agradecimientos
+Este proyecto fue realmente interesante, me pone en frente un reto mas, pues encuentro elementos adicionales que desconozco frente a la arquitectura que pude evidenciar en el repositorio encontrado, pienso que este tipo de pruebas son las que se necesitan para realmente comprender en un proceso de desarrollo tanto a la empresa como a la persona las falencias como los conocimientos que se puedan tener y de paso enriquecer el proceso que lleva la persona. 
+
+
+
+
+
